@@ -19,10 +19,12 @@ class Queue {
 
   dequeue() {
     if (!this.isEmpty()) {
-      console.log(this.queue[this.front]);
+      const temp = this.queue[this.front];
       this.queue[this.front] = undefined;
-      this.front = (this.front + 1) % this.size;
       if (this.front === this.rear) this.front = this.rear = -1;
+      else this.front = (this.front + 1) % this.size;
+
+      return temp;
     } else console.log("queue is empty");
   }
 
@@ -54,7 +56,7 @@ class Queue {
   }
 
   printQueue() {
-    console.log(this.queue, this.rear, this.front);
+    console.log(this.queue, this.front, this.rear);
   }
 }
 
@@ -66,8 +68,7 @@ q.enqueue(3);
 q.enqueue(4);
 q.enqueue(5);
 q.enqueue(6);
-
-q.printQueue();
+q.enqueue(7);
 
 q.dequeue();
 q.dequeue();
@@ -77,9 +78,7 @@ q.printQueue();
 q.enqueue(8);
 q.enqueue(9);
 q.enqueue(10);
-q.enqueue(11);
-q.enqueue(12);
-q.enqueue(13);
-q.dequeue();
+q.printQueue();
+for (let i = 0; i < 15; i++) q.dequeue();
 
 q.printQueue();
