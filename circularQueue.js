@@ -7,21 +7,50 @@ class Queue {
   }
 
   enqueue(x) {
-    if ((this.rear + 1) % this.size !== this.front) {
+    if (!this.isFull()) {
       this.rear = (this.rear + 1) % this.size;
       this.queue[this.rear] = x;
       if (this.front === -1) this.front = this.rear;
     } else {
-      console.log("queue is full");
+      this.resize();
+      this.enqueue(x);
     }
   }
 
   dequeue() {
-    if (this.rear !== this.front) {
+    if (!this.isEmpty()) {
       console.log(this.queue[this.front]);
       this.queue[this.front] = undefined;
       this.front = (this.front + 1) % this.size;
+      if (this.front === this.rear) this.front = this.rear = -1;
     } else console.log("queue is empty");
+  }
+
+  resize() {
+    const newQueue = new Array(this.size * 2);
+    let j = this.front;
+
+    for (let i = 0; i < this.size; i++) {
+      newQueue[i] = this.queue[this.front];
+      this.front = (this.front + 1) % this.size;
+    }
+
+    this.rear = this.size - 1;
+    this.front = 0;
+    this.queue = newQueue;
+    this.size = this.size * 2;
+  }
+
+  peek() {
+    return this.queue[this.front];
+  }
+
+  isFull() {
+    return this.front !== -1 && (this.rear + 1) % this.size === this.front;
+  }
+
+  isEmpty() {
+    return this.front === -1;
   }
 
   printQueue() {
@@ -48,5 +77,9 @@ q.printQueue();
 q.enqueue(8);
 q.enqueue(9);
 q.enqueue(10);
+q.enqueue(11);
+q.enqueue(12);
+q.enqueue(13);
+q.dequeue();
 
 q.printQueue();
